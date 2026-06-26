@@ -1,66 +1,186 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Thành Công Edu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website giới thiệu dịch vụ tư vấn du học và quản trị nội dung cho Thành Công Edu, được xây dựng bằng Laravel 10, Blade, Tailwind CSS và Vite.
 
-## About Laravel
+## Tổng quan
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Project gồm 2 phần chính:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Website public để giới thiệu dịch vụ, đăng tin tức và nhận đăng ký tư vấn
+- Khu vực quản trị để quản lý bài viết, danh mục, đối tác, nội dung trang chủ, cài đặt hệ thống và danh sách đăng ký tư vấn
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tính năng chính
 
-## Learning Laravel
+### Website public
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Trang chủ giới thiệu thương hiệu và nội dung nổi bật
+- Danh sách tin tức tại `/tin-tuc`
+- Chi tiết bài viết theo slug
+- Form đăng ký tư vấn trực tuyến
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Khu vực quản trị
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Đăng nhập quản trị
+- Dashboard theo phong cách AdminLTE
+- Quản lý tài khoản người dùng theo vai trò
+- Quản lý danh mục bài viết
+- Quản lý bài viết và ảnh đại diện
+- Quản lý đối tác
+- Quản lý cài đặt website
+- Quản lý nội dung trang chủ
+- Theo dõi danh sách đăng ký tư vấn
 
-## Laravel Sponsors
+## Công nghệ sử dụng
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- PHP `^8.1`
+- Laravel `^10.10`
+- MySQL hoặc MariaDB
+- Blade Template
+- Tailwind CSS
+- Vite
+- CKEditor 5
+- AOS
+- Swiper
 
-### Premium Partners
+## Cấu trúc route chính
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- `/` : Trang chủ
+- `/tin-tuc` : Danh sách bài viết
+- `/tin-tuc/{slug}` : Chi tiết bài viết
+- `/login` : Đăng nhập quản trị
+- `/admin` : Dashboard quản trị
 
-## Contributing
+## Yêu cầu môi trường
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- PHP 8.1 trở lên
+- Composer
+- Node.js 18 trở lên
+- NPM
+- MySQL hoặc MariaDB
 
-## Code of Conduct
+## Cài đặt project
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Clone source
 
-## Security Vulnerabilities
+```bash
+git clone https://github.com/donkma93/thanhcongnew.git
+cd thanhcongnew
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Cài đặt dependency PHP
 
-## License
+```bash
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Cài đặt dependency frontend
+
+```bash
+npm install
+```
+
+### 4. Tạo file môi trường
+
+```bash
+cp .env.example .env
+```
+
+Trên Windows có thể copy thủ công từ `.env.example` sang `.env`.
+
+### 5. Cấu hình môi trường
+
+Cập nhật các biến trong `.env`, đặc biệt:
+
+- `APP_NAME`
+- `APP_URL`
+- `DB_CONNECTION`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+
+### 6. Tạo app key
+
+```bash
+php artisan key:generate
+```
+
+### 7. Chạy migrate
+
+```bash
+php artisan migrate
+```
+
+### 8. Seed dữ liệu khởi tạo
+
+```bash
+php artisan db:seed
+```
+
+Seeder hiện tạo sẵn:
+
+- 1 tài khoản quản trị mặc định
+- các cài đặt hệ thống cơ bản
+
+## Tài khoản admin mặc định
+
+Sau khi chạy seed, bạn có thể đăng nhập bằng:
+
+- Email: `admin@thanhcongedu.vn`
+- Mật khẩu: `admin123456`
+
+Nên đổi mật khẩu ngay sau khi triển khai.
+
+## Chạy môi trường local
+
+### Backend
+
+```bash
+php artisan serve
+```
+
+### Frontend dev server
+
+```bash
+npm run dev
+```
+
+### Build asset production
+
+```bash
+npm run build
+```
+
+## Kiểm thử
+
+Chạy test:
+
+```bash
+php artisan test
+```
+
+## Thư mục quan trọng
+
+- `app/Http/Controllers` : Controller xử lý nghiệp vụ
+- `app/Models` : Model Eloquent
+- `resources/views` : Giao diện Blade
+- `resources/views/admin` : Giao diện quản trị
+- `database/migrations` : Cấu trúc database
+- `database/seeders` : Seeder dữ liệu khởi tạo
+- `routes/web.php` : Route web chính
+
+## Lưu ý triển khai
+
+- Không commit file `.env`
+- Không commit `vendor` và `node_modules`
+- Cần chạy `npm run build` khi deploy production
+- Nếu dùng upload ảnh local, cần tạo symbolic link storage:
+
+```bash
+php artisan storage:link
+```
+
+## Bản quyền
+
+Project thuộc phạm vi sử dụng của Thành Công Edu.
