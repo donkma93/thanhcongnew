@@ -68,58 +68,19 @@
                                         </td>
                                         <td>
                                             <div class="table-actions">
-                                                <button type="button" class="table-toggle" data-edit-toggle="achievement-edit-{{ $achievement->id }}">Sửa</button>
+                                                <button type="button" class="table-toggle" data-modal-open="achievement-edit-modal-{{ $achievement->id }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                    <span>Sửa</span>
+                                                </button>
                                                 <form action="{{ route('admin.achievements.destroy', $achievement) }}" method="POST" onsubmit="return confirm('Xóa học viên vinh danh này?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="text-link-danger" type="submit">Xóa</button>
+                                                    <button class="text-link-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                        <span>Xóa</span>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="achievement-edit-{{ $achievement->id }}" class="table-edit-row" hidden>
-                                        <td colspan="7">
-                                            <form action="{{ route('admin.achievements.update', $achievement) }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group">
-                                                    <label class="form-label">Tên học viên</label>
-                                                    <input name="student_name" class="form-control" value="{{ $achievement->student_name }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Chương trình / hệ học</label>
-                                                    <input name="program_name" class="form-control" value="{{ $achievement->program_name }}" required>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Tiêu đề thành tích</label>
-                                                    <input name="achievement_title" class="form-control" value="{{ $achievement->achievement_title }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Huy hiệu kết quả</label>
-                                                    <input name="result_badge" class="form-control" value="{{ $achievement->result_badge }}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Avatar mới</label>
-                                                    <input type="file" name="avatar" accept="image/*" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Thứ tự hiển thị</label>
-                                                    <input type="number" min="0" name="sort_order" class="form-control" value="{{ $achievement->sort_order }}">
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Mô tả thành tích</label>
-                                                    <textarea name="achievement_description" class="form-control" rows="5" required>{{ $achievement->achievement_description }}</textarea>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-check">
-                                                        <input type="checkbox" name="is_active" value="1" @checked($achievement->is_active)>
-                                                        <span>Hiển thị ngoài website</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <button class="btn btn-primary btn-sm" type="submit">Cập nhật học viên vinh danh</button>
-                                                </div>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,6 +90,72 @@
                 @endif
             </div>
         </div>
+
+        @foreach ($achievements as $achievement)
+            <div
+                id="achievement-edit-modal-{{ $achievement->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa học viên vinh danh</h2>
+                            <p class="admin-modal-subtitle">{{ $achievement->student_name }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.achievements.update', $achievement) }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <div class="form-group">
+                                <label class="form-label">Tên học viên</label>
+                                <input name="student_name" class="form-control" value="{{ $achievement->student_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Chương trình / hệ học</label>
+                                <input name="program_name" class="form-control" value="{{ $achievement->program_name }}" required>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Tiêu đề thành tích</label>
+                                <input name="achievement_title" class="form-control" value="{{ $achievement->achievement_title }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Huy hiệu kết quả</label>
+                                <input name="result_badge" class="form-control" value="{{ $achievement->result_badge }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Avatar mới</label>
+                                <input type="file" name="avatar" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Thứ tự hiển thị</label>
+                                <input type="number" min="0" name="sort_order" class="form-control" value="{{ $achievement->sort_order }}">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Mô tả thành tích</label>
+                                <textarea name="achievement_description" class="form-control" rows="5" required>{{ $achievement->achievement_description }}</textarea>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-check">
+                                    <input type="checkbox" name="is_active" value="1" @checked($achievement->is_active)>
+                                    <span>Hiển thị ngoài website</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Cập nhật học viên vinh danh</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="achievement-create-modal"

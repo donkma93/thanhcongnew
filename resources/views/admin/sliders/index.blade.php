@@ -66,68 +66,19 @@
                                         </td>
                                         <td>
                                             <div class="table-actions">
-                                                <button type="button" class="table-toggle" data-edit-toggle="slider-edit-{{ $slider->id }}">Sửa</button>
+                                                <button type="button" class="table-toggle" data-modal-open="slider-edit-modal-{{ $slider->id }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                    <span>Sửa</span>
+                                                </button>
                                                 <form action="{{ route('admin.sliders.destroy', $slider) }}" method="POST" onsubmit="return confirm('Xóa slider trang chủ này?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="text-link-danger" type="submit">Xóa</button>
+                                                    <button class="text-link-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                        <span>Xóa</span>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="slider-edit-{{ $slider->id }}" class="table-edit-row" hidden>
-                                        <td colspan="6">
-                                            <form action="{{ route('admin.sliders.update', $slider) }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Tiêu đề</label>
-                                                    <textarea name="title" class="form-control" rows="3" required>{{ $slider->title }}</textarea>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Mô tả</label>
-                                                    <textarea name="description" class="form-control" rows="4">{{ $slider->description }}</textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Ảnh nền mới</label>
-                                                    <input type="file" name="background_image" accept="image/*" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Lớp phủ màu</label>
-                                                    <select name="overlay_class" class="form-select" required>
-                                                        @foreach ([
-                                                            'bg-blue-900/60' => 'Xanh dương đậm',
-                                                            'bg-purple-900/60' => 'Tím đậm',
-                                                            'bg-green-900/60' => 'Xanh lá đậm',
-                                                            'bg-red-900/60' => 'Đỏ đậm',
-                                                            'bg-slate-900/60' => 'Xám đậm',
-                                                        ] as $value => $label)
-                                                            <option value="{{ $value }}" @selected($slider->overlay_class === $value)>{{ $label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Nút bấm</label>
-                                                    <input name="button_text" class="form-control" value="{{ $slider->button_text }}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Liên kết nút</label>
-                                                    <input name="button_link" class="form-control" value="{{ $slider->button_link }}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Thứ tự hiển thị</label>
-                                                    <input type="number" min="0" name="sort_order" class="form-control" value="{{ $slider->sort_order }}">
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-check">
-                                                        <input type="checkbox" name="is_active" value="1" @checked($slider->is_active)>
-                                                        <span>Hiển thị trên trang chủ</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <button class="btn btn-primary btn-sm" type="submit">Cập nhật slider</button>
-                                                </div>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -137,6 +88,82 @@
                 @endif
             </div>
         </div>
+
+        @foreach ($sliders as $slider)
+            <div
+                id="slider-edit-modal-{{ $slider->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa slide</h2>
+                            <p class="admin-modal-subtitle">Slide #{{ $slider->id }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.sliders.update', $slider) }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Tiêu đề</label>
+                                <textarea name="title" class="form-control" rows="3" required>{{ $slider->title }}</textarea>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Mô tả</label>
+                                <textarea name="description" class="form-control" rows="4">{{ $slider->description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ảnh nền mới</label>
+                                <input type="file" name="background_image" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Lớp phủ màu</label>
+                                <select name="overlay_class" class="form-select" required>
+                                    @foreach ([
+                                        'bg-blue-900/60' => 'Xanh dương đậm',
+                                        'bg-purple-900/60' => 'Tím đậm',
+                                        'bg-green-900/60' => 'Xanh lá đậm',
+                                        'bg-red-900/60' => 'Đỏ đậm',
+                                        'bg-slate-900/60' => 'Xám đậm',
+                                    ] as $value => $label)
+                                        <option value="{{ $value }}" @selected($slider->overlay_class === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nút bấm</label>
+                                <input name="button_text" class="form-control" value="{{ $slider->button_text }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Liên kết nút</label>
+                                <input name="button_link" class="form-control" value="{{ $slider->button_link }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Thứ tự hiển thị</label>
+                                <input type="number" min="0" name="sort_order" class="form-control" value="{{ $slider->sort_order }}">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-check">
+                                    <input type="checkbox" name="is_active" value="1" @checked($slider->is_active)>
+                                    <span>Hiển thị trên trang chủ</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Cập nhật slider</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="slider-create-modal"

@@ -58,50 +58,19 @@
                                         </td>
                                         <td>
                                             <div class="table-actions">
-                                                <button type="button" class="table-toggle" data-edit-toggle="stat-edit-{{ $stat->id }}">Sửa</button>
+                                                <button type="button" class="table-toggle" data-modal-open="stat-edit-modal-{{ $stat->id }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                    <span>Sửa</span>
+                                                </button>
                                                 <form action="{{ route('admin.stats.destroy', $stat) }}" method="POST" onsubmit="return confirm('Xóa thống kê này?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="text-link-danger" type="submit">Xóa</button>
+                                                    <button class="text-link-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                        <span>Xóa</span>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="stat-edit-{{ $stat->id }}" class="table-edit-row" hidden>
-                                        <td colspan="6">
-                                            <form action="{{ route('admin.stats.update', $stat) }}" method="POST" class="admin-form-grid">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group">
-                                                    <label class="form-label">Số liệu</label>
-                                                    <input name="value" class="form-control" value="{{ $stat->value }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Nhãn hiển thị</label>
-                                                    <input name="label" class="form-control" value="{{ $stat->label }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Icon</label>
-                                                    <select name="icon_key" class="form-select" required>
-                                                        @foreach ($iconOptions as $key => $label)
-                                                            <option value="{{ $key }}" @selected($stat->icon_key === $key)>{{ $label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Thứ tự hiển thị</label>
-                                                    <input type="number" min="0" name="sort_order" class="form-control" value="{{ $stat->sort_order }}">
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-check">
-                                                        <input type="checkbox" name="is_active" value="1" @checked($stat->is_active)>
-                                                        <span>Hiển thị ngoài website</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <button class="btn btn-primary btn-sm" type="submit">Cập nhật thống kê</button>
-                                                </div>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -111,6 +80,64 @@
                 @endif
             </div>
         </div>
+
+        @foreach ($stats as $stat)
+            <div
+                id="stat-edit-modal-{{ $stat->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa thống kê</h2>
+                            <p class="admin-modal-subtitle">{{ $stat->label }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.stats.update', $stat) }}" method="POST" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <div class="form-group">
+                                <label class="form-label">Số liệu</label>
+                                <input name="value" class="form-control" value="{{ $stat->value }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nhãn hiển thị</label>
+                                <input name="label" class="form-control" value="{{ $stat->label }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Icon</label>
+                                <select name="icon_key" class="form-select" required>
+                                    @foreach ($iconOptions as $key => $label)
+                                        <option value="{{ $key }}" @selected($stat->icon_key === $key)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Thứ tự hiển thị</label>
+                                <input type="number" min="0" name="sort_order" class="form-control" value="{{ $stat->sort_order }}">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-check">
+                                    <input type="checkbox" name="is_active" value="1" @checked($stat->is_active)>
+                                    <span>Hiển thị ngoài website</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Cập nhật thống kê</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="stat-create-modal"

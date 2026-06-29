@@ -853,15 +853,6 @@
             border-bottom: 0;
         }
 
-        .table-edit-row td {
-            background: #f8fbff;
-            padding-top: 0;
-        }
-
-        .table-edit-row[hidden] {
-            display: none;
-        }
-
         .table-summary {
             color: var(--admin-muted);
             font-size: 0.92rem;
@@ -952,29 +943,21 @@
             cursor: pointer;
             font-weight: 700;
             color: #1d4ed8;
-            list-style: none;
-            border: 0;
-            background: transparent;
-            padding: 0;
+            border: 1px solid rgba(29, 78, 216, 0.18);
+            background: rgba(219, 234, 254, 0.42);
+            padding: 0.5rem 0.8rem;
+            border-radius: 999px;
             font: inherit;
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
         }
 
-        .table-toggle::-webkit-details-marker {
-            display: none;
-        }
-
-        .table-toggle::before {
-            content: '\f078';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 0.78rem;
-        }
-
-        .table-toggle.is-open::before {
-            content: '\f077';
+        .table-toggle:hover {
+            background: rgba(191, 219, 254, 0.65);
+            border-color: rgba(29, 78, 216, 0.3);
+            color: #1e40af;
         }
 
         .entity-meta {
@@ -1036,6 +1019,9 @@
             border: 0;
             padding: 0;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
         }
 
         .text-link-danger:hover {
@@ -1377,6 +1363,17 @@
                 });
             }
 
+            function setEditToggleContent(button, isOpen) {
+                if (!button) {
+                    return;
+                }
+
+                const iconClass = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-pen-to-square';
+                const label = isOpen ? 'Đóng' : 'Sửa';
+
+                button.innerHTML = '<i class="' + iconClass + '"></i><span>' + label + '</span>';
+            }
+
             function setBodyModalState() {
                 const hasOpenModal = Array.from(modalOverlays).some(function (modal) {
                     return !modal.hasAttribute('hidden');
@@ -1441,43 +1438,6 @@
                 closeModal(openModalElement);
             });
 
-            function syncEditToggles() {
-                document.querySelectorAll('[data-edit-toggle]').forEach(function (toggle) {
-                    const targetId = toggle.getAttribute('data-edit-toggle');
-                    const targetRow = targetId ? document.getElementById(targetId) : null;
-                    const isOpen = targetRow && !targetRow.hasAttribute('hidden');
-
-                    toggle.classList.toggle('is-open', Boolean(isOpen));
-                    toggle.textContent = isOpen ? 'Đóng' : 'Sửa';
-                });
-            }
-
-            document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    const targetId = button.getAttribute('data-edit-toggle');
-                    const row = document.getElementById(targetId);
-
-                    if (!row) {
-                        return;
-                    }
-
-                    const isHidden = row.hasAttribute('hidden');
-
-                    document.querySelectorAll('.table-edit-row').forEach(function (item) {
-                        item.setAttribute('hidden', 'hidden');
-                    });
-
-                    document.querySelectorAll('[data-edit-toggle]').forEach(function (toggle) {
-                        toggle.textContent = 'Sửa';
-                    });
-
-                    if (isHidden) {
-                        row.removeAttribute('hidden');
-                        button.textContent = 'Đóng';
-                    }
-                });
-            });
-
             document.querySelectorAll('.rich-editor').forEach(function (element) {
                 if (element.dataset.editorReady === 'true') {
                     return;
@@ -1494,56 +1454,6 @@
                     console.error(error);
                 });
             });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButtons = Array.from(document.querySelectorAll('[data-edit-toggle]'));
-
-            if (!toggleButtons.length) {
-                return;
-            }
-
-            toggleButtons.forEach(function (button) {
-                const replacement = button.cloneNode(true);
-                button.replaceWith(replacement);
-            });
-
-            function syncEditButtons() {
-                document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
-                    const targetId = button.getAttribute('data-edit-toggle');
-                    const targetRow = targetId ? document.getElementById(targetId) : null;
-                    const isOpen = Boolean(targetRow && !targetRow.hasAttribute('hidden'));
-
-                    button.classList.toggle('is-open', isOpen);
-                    button.textContent = isOpen ? 'Đóng' : 'Sửa';
-                });
-            }
-
-            document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    const targetId = button.getAttribute('data-edit-toggle');
-                    const targetRow = targetId ? document.getElementById(targetId) : null;
-
-                    if (!targetRow) {
-                        return;
-                    }
-
-                    const shouldOpen = targetRow.hasAttribute('hidden');
-
-                    document.querySelectorAll('.table-edit-row').forEach(function (row) {
-                        row.setAttribute('hidden', 'hidden');
-                    });
-
-                    if (shouldOpen) {
-                        targetRow.removeAttribute('hidden');
-                    }
-
-                    syncEditButtons();
-                });
-            });
-
-            syncEditButtons();
         });
     </script>
     @stack('scripts')

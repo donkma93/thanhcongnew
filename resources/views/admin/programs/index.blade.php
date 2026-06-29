@@ -60,54 +60,19 @@
                                         </td>
                                         <td>
                                             <div class="table-actions">
-                                                <button type="button" class="table-toggle" data-edit-toggle="program-edit-{{ $program->id }}">Sửa</button>
+                                                <button type="button" class="table-toggle" data-modal-open="program-edit-modal-{{ $program->id }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                    <span>Sửa</span>
+                                                </button>
                                                 <form action="{{ route('admin.programs.destroy', $program) }}" method="POST" onsubmit="return confirm('Xóa hệ du học này?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="text-link-danger" type="submit">Xóa</button>
+                                                    <button class="text-link-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                        <span>Xóa</span>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="program-edit-{{ $program->id }}" class="table-edit-row" hidden>
-                                        <td colspan="6">
-                                            <form action="{{ route('admin.programs.update', $program) }}" method="POST" class="admin-form-grid">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group">
-                                                    <label class="form-label">Mã hệ</label>
-                                                    <input name="code" class="form-control" value="{{ $program->code }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tên hệ</label>
-                                                    <input name="title" class="form-control" value="{{ $program->title }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Màu nhận diện</label>
-                                                    <select name="theme_key" class="form-select" required>
-                                                        @foreach ($themeOptions as $key => $label)
-                                                            <option value="{{ $key }}" @selected($program->theme_key === $key)>{{ $label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Thứ tự hiển thị</label>
-                                                    <input type="number" min="0" name="sort_order" class="form-control" value="{{ $program->sort_order }}">
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Mô tả</label>
-                                                    <textarea name="description" class="form-control" rows="5" required>{{ $program->description }}</textarea>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-check">
-                                                        <input type="checkbox" name="is_active" value="1" @checked($program->is_active)>
-                                                        <span>Hiển thị ngoài website</span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <button class="btn btn-primary btn-sm" type="submit">Cập nhật hệ du học</button>
-                                                </div>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -117,6 +82,68 @@
                 @endif
             </div>
         </div>
+
+        @foreach ($programs as $program)
+            <div
+                id="program-edit-modal-{{ $program->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa hệ du học</h2>
+                            <p class="admin-modal-subtitle">{{ $program->title }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.programs.update', $program) }}" method="POST" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <div class="form-group">
+                                <label class="form-label">Mã hệ</label>
+                                <input name="code" class="form-control" value="{{ $program->code }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tên hệ</label>
+                                <input name="title" class="form-control" value="{{ $program->title }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Màu nhận diện</label>
+                                <select name="theme_key" class="form-select" required>
+                                    @foreach ($themeOptions as $key => $label)
+                                        <option value="{{ $key }}" @selected($program->theme_key === $key)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Thứ tự hiển thị</label>
+                                <input type="number" min="0" name="sort_order" class="form-control" value="{{ $program->sort_order }}">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Mô tả</label>
+                                <textarea name="description" class="form-control" rows="5" required>{{ $program->description }}</textarea>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-check">
+                                    <input type="checkbox" name="is_active" value="1" @checked($program->is_active)>
+                                    <span>Hiển thị ngoài website</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Cập nhật hệ du học</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="program-create-modal"

@@ -58,44 +58,19 @@
                                         <td>{{ $consultation->created_at?->format('d/m/Y H:i') }}</td>
                                         <td>
                                             <div class="table-actions">
-                                                <button type="button" class="table-toggle" data-edit-toggle="consultation-edit-{{ $consultation->id }}">Sửa</button>
+                                                <button type="button" class="table-toggle" data-modal-open="consultation-edit-modal-{{ $consultation->id }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                    <span>Sửa</span>
+                                                </button>
                                                 <form action="{{ route('admin.consultations.destroy', $consultation) }}" method="POST" onsubmit="return confirm('Xóa đăng ký tư vấn này?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="text-link-danger" type="submit">Xóa</button>
+                                                    <button class="text-link-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                        <span>Xóa</span>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="consultation-edit-{{ $consultation->id }}" class="table-edit-row" hidden>
-                                        <td colspan="7">
-                                            <form action="{{ route('admin.consultations.update', $consultation) }}" method="POST" class="admin-form-grid">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group">
-                                                    <label class="form-label">Họ tên</label>
-                                                    <input name="name" class="form-control" value="{{ $consultation->name }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Số điện thoại</label>
-                                                    <input name="phone" class="form-control" value="{{ $consultation->phone }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Email</label>
-                                                    <input type="email" name="email" class="form-control" value="{{ $consultation->email }}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Chương trình quan tâm</label>
-                                                    <input name="destination" class="form-control" value="{{ $consultation->destination }}">
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <label class="form-label">Nội dung</label>
-                                                    <textarea name="message" class="form-control" rows="4">{{ $consultation->message }}</textarea>
-                                                </div>
-                                                <div class="form-group form-group-full">
-                                                    <button class="btn btn-primary btn-sm" type="submit">Cập nhật đăng ký tư vấn</button>
-                                                </div>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -105,6 +80,58 @@
                 @endif
             </div>
         </div>
+
+        @foreach ($consultations as $consultation)
+            <div
+                id="consultation-edit-modal-{{ $consultation->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa đăng ký tư vấn</h2>
+                            <p class="admin-modal-subtitle">{{ $consultation->name }} - {{ $consultation->phone }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.consultations.update', $consultation) }}" method="POST" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <div class="form-group">
+                                <label class="form-label">Họ tên</label>
+                                <input name="name" class="form-control" value="{{ $consultation->name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Số điện thoại</label>
+                                <input name="phone" class="form-control" value="{{ $consultation->phone }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" value="{{ $consultation->email }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Chương trình quan tâm</label>
+                                <input name="destination" class="form-control" value="{{ $consultation->destination }}">
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Nội dung</label>
+                                <textarea name="message" class="form-control" rows="4">{{ $consultation->message }}</textarea>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Cập nhật đăng ký tư vấn</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="consultation-create-modal"

@@ -47,41 +47,19 @@
                                     </td>
                                     <td>
                                         <div class="table-actions">
-                                            <button type="button" class="table-toggle" data-edit-toggle="user-edit-{{ $user->id }}">Sửa</button>
+                                            <button type="button" class="table-toggle" data-modal-open="user-edit-modal-{{ $user->id }}">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                <span>Sửa</span>
+                                            </button>
                                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Xóa tài khoản này?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="text-link-danger" type="submit">Xóa</button>
+                                                <button class="text-link-danger" type="submit">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                    <span>Xóa</span>
+                                                </button>
                                             </form>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr id="user-edit-{{ $user->id }}" class="table-edit-row" hidden>
-                                    <td colspan="5">
-                                        <form action="{{ route('admin.users.update', $user) }}" method="POST" class="admin-form-grid">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="name" value="{{ $user->name }}">
-                                            <input type="hidden" name="email" value="{{ $user->email }}">
-                                            <div class="form-group">
-                                                <label class="form-label">Vai trò</label>
-                                                <select name="role" class="form-select">
-                                                    <option value="admin" @selected($user->role === 'admin')>Quản trị viên</option>
-                                                    <option value="manager" @selected($user->role === 'manager')>Quản lý</option>
-                                                    <option value="editor" @selected($user->role === 'editor')>Biên tập viên</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Trạng thái</label>
-                                                <label class="form-check" style="height: 100%;">
-                                                    <input type="checkbox" name="is_active" value="1" @checked($user->is_active)>
-                                                    <span>Kích hoạt</span>
-                                                </label>
-                                            </div>
-                                            <div class="form-group form-group-full">
-                                                <button class="btn btn-primary btn-sm" type="submit">Lưu thay đổi</button>
-                                            </div>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -90,6 +68,55 @@
                 </div>
             </div>
         </div>
+
+        @foreach ($users as $user)
+            <div
+                id="user-edit-modal-{{ $user->id }}"
+                class="admin-modal"
+                data-admin-modal
+                hidden
+            >
+                <div class="admin-modal-backdrop" data-modal-backdrop></div>
+                <div class="admin-modal-dialog">
+                    <div class="admin-modal-header">
+                        <div>
+                            <h2 class="admin-modal-title">Sửa tài khoản</h2>
+                            <p class="admin-modal-subtitle">{{ $user->name }} - {{ $user->email }}</p>
+                        </div>
+                        <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form action="{{ route('admin.users.update', $user) }}" method="POST" class="admin-form-grid">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="name" value="{{ $user->name }}">
+                            <input type="hidden" name="email" value="{{ $user->email }}">
+                            <div class="form-group">
+                                <label class="form-label">Vai trò</label>
+                                <select name="role" class="form-select">
+                                    <option value="admin" @selected($user->role === 'admin')>Quản trị viên</option>
+                                    <option value="manager" @selected($user->role === 'manager')>Quản lý</option>
+                                    <option value="editor" @selected($user->role === 'editor')>Biên tập viên</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Trạng thái</label>
+                                <label class="form-check" style="height: 100%;">
+                                    <input type="checkbox" name="is_active" value="1" @checked($user->is_active)>
+                                    <span>Kích hoạt</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                    <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div
             id="user-create-modal"
