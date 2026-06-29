@@ -12,7 +12,11 @@ class EnsureAdminAccess
     {
         $user = $request->user();
 
-        if (! $user || ! $user->is_active || ! in_array($user->role, ['admin', 'manager', 'editor'], true)) {
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        if (! $user->is_active || ! in_array($user->role, ['admin', 'manager', 'editor'], true)) {
             abort(403, 'Bạn không có quyền truy cập trang quản trị.');
         }
 

@@ -1,9 +1,9 @@
-@extends('admin.layouts.app')
+@extends('auth.layouts.app')
 
 @section('title', 'Đăng nhập quản trị')
 
 @section('content')
-<section class="min-h-[70vh] bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center px-4 py-16">
+<section class="min-h-screen flex items-center justify-center px-4 py-10">
     <div class="w-full max-w-md bg-white rounded-3xl shadow-xl border border-blue-100 p-8">
         <div class="text-center mb-8">
             <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-800 text-white text-2xl font-extrabold">T</div>

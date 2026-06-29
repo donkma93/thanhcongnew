@@ -26,7 +26,10 @@ class AuthController extends Controller
 
             if (! Auth::user()->is_active) {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Tài khoản đã bị khóa.']);
+
+                return back()->withErrors([
+                    'email' => 'Tài khoản đã bị khóa.',
+                ]);
             }
 
             return redirect()->intended(route('admin.dashboard'));

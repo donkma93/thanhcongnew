@@ -9,15 +9,130 @@
     ])
 
     <section class="content">
-        <div class="grid grid-2">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h2 class="card-title">Thêm đối tác</h2>
-                        <p class="card-subtitle">Cập nhật nhanh logo và thông tin hiển thị cho mỗi đơn vị hợp tác.</p>
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Đối tác hiện có</h2>
+                    <p class="card-subtitle">Dễ theo dõi trạng thái và thứ tự hiển thị khi danh sách đối tác ngày càng nhiều.</p>
                 </div>
-                <div class="card-body">
+                <div class="card-header-actions">
+                    <button type="button" class="btn btn-outline-primary" data-modal-open="partner-create-modal">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Thêm đối tác</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Logo</th>
+                                <th>Tên đối tác</th>
+                                <th>Website</th>
+                                <th>Thứ tự</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($partners as $partner)
+                                <tr>
+                                    <td>
+                                        @if ($partner->logo)
+                                            <img
+                                                src="{{ filter_var($partner->logo, FILTER_VALIDATE_URL) ? $partner->logo : asset('storage/' . $partner->logo) }}"
+                                                alt="{{ $partner->name }}"
+                                                class="table-media"
+                                                style="object-fit: contain;"
+                                            >
+                                        @else
+                                            <span class="table-summary">Chưa có</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="table-title">{{ $partner->name }}</div>
+                                        <div class="table-meta">{{ \Illuminate\Support\Str::limit(strip_tags($partner->description), 90) ?: 'Không có mô tả' }}</div>
+                                    </td>
+                                    <td>{{ $partner->website ?: 'Chưa khai báo' }}</td>
+                                    <td>{{ $partner->sort_order }}</td>
+                                    <td>
+                                        <span class="badge {{ $partner->is_active ? 'badge-success' : 'badge-secondary' }}">
+                                            {{ $partner->is_active ? 'Đang hiển thị' : 'Đang ẩn' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button type="button" class="table-toggle" data-edit-toggle="partner-edit-{{ $partner->id }}">Sửa</button>
+                                            <form action="{{ route('admin.partners.destroy', $partner) }}" method="POST" onsubmit="return confirm('Xóa đối tác này?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="text-link-danger" type="submit">Xóa</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr id="partner-edit-{{ $partner->id }}" class="table-edit-row" hidden>
+                                    <td colspan="6">
+                                        <form action="{{ route('admin.partners.update', $partner) }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="form-group">
+                                                <label class="form-label">Tên đối tác</label>
+                                                <input name="name" class="form-control" value="{{ $partner->name }}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Website</label>
+                                                <input name="website" class="form-control" value="{{ $partner->website }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Logo</label>
+                                                <input type="file" name="logo" accept="image/*" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Thứ tự hiển thị</label>
+                                                <input type="number" min="0" name="sort_order" class="form-control" value="{{ $partner->sort_order }}">
+                                            </div>
+                                            <div class="form-group form-group-full">
+                                                <label class="form-label">Mô tả</label>
+                                                <textarea name="description" class="form-control rich-editor" rows="5">{{ $partner->description }}</textarea>
+                                            </div>
+                                            <div class="form-group form-group-full">
+                                                <label class="form-check">
+                                                    <input type="checkbox" name="is_active" value="1" @checked($partner->is_active)>
+                                                    <span>Hiển thị trên website</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group form-group-full">
+                                                <button class="btn btn-primary btn-sm" type="submit">Cập nhật đối tác</button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="partner-create-modal"
+            class="admin-modal"
+            data-admin-modal
+            data-modal-auto-open="{{ $errors->any() ? 'true' : 'false' }}"
+            hidden
+        >
+            <div class="admin-modal-backdrop" data-modal-backdrop></div>
+            <div class="admin-modal-dialog">
+                <div class="admin-modal-header">
+                    <div>
+                        <h2 class="admin-modal-title">Thêm đối tác</h2>
+                        <p class="admin-modal-subtitle">Cập nhật nhanh logo và thông tin hiển thị cho mỗi đơn vị hợp tác.</p>
+                    </div>
+                    <button type="button" class="admin-modal-close" data-modal-close aria-label="Đóng">&times;</button>
+                </div>
+                <div class="admin-modal-body">
                     <form action="{{ route('admin.partners.store') }}" method="POST" enctype="multipart/form-data" class="admin-form-grid">
                         @csrf
                         <div class="form-group">
@@ -47,60 +162,12 @@
                             </label>
                         </div>
                         <div class="form-group form-group-full">
-                            <button class="btn btn-primary" type="submit">Thêm đối tác</button>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" type="submit">Thêm đối tác</button>
+                                <button type="button" class="btn btn-default" data-modal-close>Hủy</button>
+                            </div>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h2 class="card-title">Đối tác hiện có</h2>
-                        <p class="card-subtitle">Tổng quan nhanh danh sách đối tác để kiểm tra trạng thái hiển thị.</p>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="entity-list">
-                        @foreach ($partners as $partner)
-                            <div class="entity-item">
-                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                                    @if ($partner->logo)
-                                        <img
-                                            src="{{ filter_var($partner->logo, FILTER_VALIDATE_URL) ? $partner->logo : asset('storage/' . $partner->logo) }}"
-                                            alt="{{ $partner->name }}"
-                                            class="media-thumb"
-                                            style="object-fit: contain; background: #fff;"
-                                        >
-                                    @endif
-                                    <div style="flex: 1; min-width: 0;">
-                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
-                                            <div>
-                                                <div style="font-weight: 700;">{{ $partner->name }}</div>
-                                                <div class="entity-meta">{{ $partner->website ?: 'Chưa khai báo website' }}</div>
-                                            </div>
-                                            <span class="badge {{ $partner->is_active ? 'badge-success' : 'badge-secondary' }}">
-                                                {{ $partner->is_active ? 'Đang hiển thị' : 'Đang ẩn' }}
-                                            </span>
-                                        </div>
-
-                                        @if ($partner->description)
-                                            <p class="entity-note">{!! $partner->description !!}</p>
-                                        @endif
-
-                                        <div class="entity-actions">
-                                            <span class="entity-meta">Thứ tự hiển thị: {{ $partner->sort_order }}</span>
-                                            <form action="{{ route('admin.partners.destroy', $partner) }}" method="POST" onsubmit="return confirm('Xóa đối tác này?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="text-link-danger" type="submit">Xóa đối tác</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
             </div>
         </div>

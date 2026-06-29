@@ -119,6 +119,16 @@
             width: 2.6rem;
             height: 2.6rem;
             padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .icon-button svg,
+        .notification-title svg,
+        .dropdown-item-icon svg {
+            width: 1.2rem;
+            height: 1.2rem;
         }
 
         .notification-badge {
@@ -182,6 +192,36 @@
             border-bottom: 1px solid #edf0f2;
         }
 
+        .notification-title {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .notification-title svg {
+            color: var(--admin-primary);
+        }
+
+        .notification-read-link {
+            border: 0;
+            background: transparent;
+            color: var(--admin-primary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .notification-read-link:hover {
+            text-decoration: underline;
+        }
+
+        .notification-read-link[disabled] {
+            color: #9ca3af;
+            cursor: default;
+            text-decoration: none;
+        }
+
         .dropdown-item {
             display: flex;
             gap: 0.75rem;
@@ -220,6 +260,14 @@
             font-size: 0.87rem;
             margin-top: 0.15rem;
             line-height: 1.45;
+        }
+
+        .notification-empty {
+            display: none;
+            padding: 1rem 0.9rem;
+            color: var(--admin-muted);
+            text-align: center;
+            font-size: 0.92rem;
         }
 
         .profile-button {
@@ -352,23 +400,41 @@
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.8rem;
             border-radius: var(--admin-radius);
             color: rgba(255, 255, 255, 0.84);
-            padding: 0.8rem 0.9rem;
-            transition: background 0.2s ease, color 0.2s ease;
+            padding: 0.72rem 0.9rem;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
 
         .nav-link:hover,
         .nav-link.active {
             background: var(--admin-sidebar-accent);
             color: #fff;
+            transform: translateX(2px);
         }
 
         .nav-icon {
-            width: 1.25rem;
-            text-align: center;
-            font-size: 1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.6rem;
+            background: rgba(255, 255, 255, 0.08);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            flex: 0 0 auto;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-icon i {
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
         }
 
         .content-wrapper {
@@ -436,6 +502,17 @@
         .btn-primary:hover {
             background: #0069d9;
             border-color: #0062cc;
+        }
+
+        .btn-outline-primary {
+            background: #fff;
+            border-color: rgba(0, 123, 255, 0.25);
+            color: var(--admin-primary);
+        }
+
+        .btn-outline-primary:hover {
+            background: rgba(0, 123, 255, 0.08);
+            border-color: rgba(0, 123, 255, 0.45);
         }
 
         .btn-default {
@@ -563,6 +640,13 @@
             gap: 1rem;
             padding: 0.9rem 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .card-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .card-title {
@@ -730,6 +814,169 @@
             background: #fff;
         }
 
+        .table-wrap {
+            overflow: auto;
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            background: #fff;
+        }
+
+        .admin-table {
+            width: 100%;
+            min-width: 880px;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid #edf0f2;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .admin-table th {
+            background: #f8fafc;
+            color: #495057;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .admin-table tbody tr:hover > td {
+            background: #fcfdff;
+        }
+
+        .admin-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .table-edit-row td {
+            background: #f8fbff;
+            padding-top: 0;
+        }
+
+        .table-edit-row[hidden] {
+            display: none;
+        }
+
+        .table-summary {
+            color: var(--admin-muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .table-title {
+            font-weight: 700;
+            color: var(--admin-text);
+        }
+
+        .table-meta {
+            color: var(--admin-muted);
+            font-size: 0.88rem;
+            margin-top: 0.2rem;
+        }
+
+        .table-media {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            border: 1px solid #dee2e6;
+            background: #fff;
+        }
+
+        .table-avatar {
+            width: 3.4rem;
+            height: 3.4rem;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            background: #eef4ff;
+            color: #1d4ed8;
+            border: 1px solid #dbeafe;
+        }
+
+        .table-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table th,
+        .form-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #edf0f2;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .form-table th {
+            width: 240px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .form-table tbody tr:last-child th,
+        .form-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .form-table-note {
+            margin-top: 0.4rem;
+            color: var(--admin-muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .btn-sm {
+            padding: 0.45rem 0.75rem;
+            font-size: 0.86rem;
+        }
+
+        .table-toggle {
+            cursor: pointer;
+            font-weight: 700;
+            color: #1d4ed8;
+            list-style: none;
+            border: 0;
+            background: transparent;
+            padding: 0;
+            font: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .table-toggle::-webkit-details-marker {
+            display: none;
+        }
+
+        .table-toggle::before {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.78rem;
+        }
+
+        .table-toggle.is-open::before {
+            content: '\f077';
+        }
+
         .entity-meta {
             color: var(--admin-muted);
             font-size: 0.9rem;
@@ -804,6 +1051,91 @@
             background: #fcfcfd;
         }
 
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .admin-modal[hidden] {
+            display: none;
+        }
+
+        .admin-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .admin-modal-dialog {
+            position: relative;
+            width: min(960px, 100%);
+            max-height: calc(100vh - 3rem);
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .admin-modal-title {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .admin-modal-subtitle {
+            margin: 0.3rem 0 0;
+            color: var(--admin-muted);
+            font-size: 0.93rem;
+            line-height: 1.55;
+        }
+
+        .admin-modal-close {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: #f3f4f6;
+            color: #334155;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .admin-modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .admin-modal-body {
+            padding: 1.25rem;
+            overflow: auto;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
         @media (max-width: 1199px) {
             .grid-5 {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -852,6 +1184,21 @@
                 right: auto;
                 left: 0;
             }
+
+            .admin-modal {
+                padding: 1rem;
+            }
+
+            .admin-modal-dialog {
+                width: 100%;
+                max-height: calc(100vh - 2rem);
+            }
+
+            .admin-modal-header,
+            .admin-modal-body {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
         }
     </style>
     @stack('head')
@@ -866,20 +1213,20 @@
 
         $notificationItems = [
             [
-                'icon' => 'fa-solid fa-user-plus',
                 'iconClass' => 'bg-primary',
+                'svg' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
                 'title' => 'Tài khoản mới cần rà soát',
                 'text' => 'Kiểm tra phân quyền và trạng thái hoạt động của người dùng mới.',
             ],
             [
-                'icon' => 'fa-solid fa-file-circle-check',
                 'iconClass' => 'bg-success',
+                'svg' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>',
                 'title' => 'Nội dung đã sẵn sàng xuất bản',
                 'text' => 'Duyệt nhanh các bài viết đã hoàn tất trước khi công khai.',
             ],
             [
-                'icon' => 'fa-solid fa-headset',
                 'iconClass' => 'bg-warning',
+                'svg' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 9h8"></path><path d="M8 13h5"></path></svg>',
                 'title' => 'Có đăng ký tư vấn mới',
                 'text' => 'Theo dõi khách hàng tiềm năng và phản hồi sớm trong ngày.',
             ],
@@ -904,25 +1251,39 @@
                     <div class="topbar-menu">
                         <div class="dropdown">
                             <button type="button" class="icon-button" aria-label="Thông báo">
-                                <i class="fa-regular fa-bell"></i>
-                                <span class="notification-badge">{{ count($notificationItems) }}</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                                    <path d="M9.5 17a2.5 2.5 0 0 0 5 0"></path>
+                                </svg>
+                                <span class="notification-badge" data-notification-badge>{{ count($notificationItems) }}</span>
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" data-notification-menu>
                                 <div class="dropdown-title">
-                                    <span>Thông báo</span>
-                                    <span>{{ count($notificationItems) }} mới</span>
+                                    <span class="notification-title">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                                            <path d="M9.5 17a2.5 2.5 0 0 0 5 0"></path>
+                                        </svg>
+                                        <span>Thông báo</span>
+                                    </span>
+                                    <button type="button" class="notification-read-link" data-mark-read>Đánh dấu đã đọc</button>
                                 </div>
-                                @foreach ($notificationItems as $item)
-                                    <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
-                                        <span class="dropdown-item-icon {{ $item['iconClass'] }}">
-                                            <i class="{{ $item['icon'] }}"></i>
-                                        </span>
-                                        <span class="dropdown-item-copy">
-                                            <strong>{{ $item['title'] }}</strong>
-                                            <span>{{ $item['text'] }}</span>
-                                        </span>
-                                    </a>
-                                @endforeach
+                                <div data-notification-list>
+                                    @foreach ($notificationItems as $item)
+                                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                                            <span class="dropdown-item-icon {{ $item['iconClass'] }}">
+                                                {!! $item['svg'] !!}
+                                            </span>
+                                            <span class="dropdown-item-copy">
+                                                <strong>{{ $item['title'] }}</strong>
+                                                <span>{{ $item['text'] }}</span>
+                                            </span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="notification-empty" data-notification-empty>
+                                    Không còn thông báo mới.
+                                </div>
                             </div>
                         </div>
 
@@ -976,6 +1337,147 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const notificationStateKey = 'thanhcong_admin_notifications_read';
+            const notificationBadge = document.querySelector('[data-notification-badge]');
+            const notificationList = document.querySelector('[data-notification-list]');
+            const notificationEmpty = document.querySelector('[data-notification-empty]');
+            const markReadButton = document.querySelector('[data-mark-read]');
+            const modalOpenButtons = document.querySelectorAll('[data-modal-open]');
+            const modalCloseButtons = document.querySelectorAll('[data-modal-close]');
+            const modalOverlays = document.querySelectorAll('[data-admin-modal]');
+
+            function applyNotificationState(isRead) {
+                if (!notificationBadge || !notificationList || !notificationEmpty || !markReadButton) {
+                    return;
+                }
+
+                if (isRead) {
+                    notificationBadge.textContent = '0';
+                    notificationBadge.style.display = 'none';
+                    notificationList.style.display = 'none';
+                    notificationEmpty.style.display = 'block';
+                    markReadButton.textContent = 'Đã đọc hết';
+                    markReadButton.disabled = true;
+                } else {
+                    notificationBadge.style.display = 'inline-flex';
+                    notificationList.style.display = 'block';
+                    notificationEmpty.style.display = 'none';
+                    markReadButton.textContent = 'Đánh dấu đã đọc';
+                    markReadButton.disabled = false;
+                }
+            }
+
+            const storedNotificationState = window.localStorage.getItem(notificationStateKey) === '1';
+            applyNotificationState(storedNotificationState);
+
+            if (markReadButton) {
+                markReadButton.addEventListener('click', function () {
+                    window.localStorage.setItem(notificationStateKey, '1');
+                    applyNotificationState(true);
+                });
+            }
+
+            function setBodyModalState() {
+                const hasOpenModal = Array.from(modalOverlays).some(function (modal) {
+                    return !modal.hasAttribute('hidden');
+                });
+
+                document.body.classList.toggle('modal-open', hasOpenModal);
+            }
+
+            function openModal(modalId) {
+                const modal = modalId ? document.getElementById(modalId) : null;
+
+                if (!modal) {
+                    return;
+                }
+
+                modal.removeAttribute('hidden');
+                setBodyModalState();
+            }
+
+            function closeModal(modal) {
+                if (!modal) {
+                    return;
+                }
+
+                modal.setAttribute('hidden', 'hidden');
+                setBodyModalState();
+            }
+
+            modalOpenButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    openModal(button.getAttribute('data-modal-open'));
+                });
+            });
+
+            modalCloseButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    closeModal(button.closest('[data-admin-modal]'));
+                });
+            });
+
+            modalOverlays.forEach(function (modal) {
+                modal.addEventListener('click', function (event) {
+                    if (event.target === modal || event.target.hasAttribute('data-modal-backdrop')) {
+                        closeModal(modal);
+                    }
+                });
+
+                if (modal.dataset.modalAutoOpen === 'true') {
+                    openModal(modal.id);
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Escape') {
+                    return;
+                }
+
+                const openModalElement = Array.from(modalOverlays).find(function (modal) {
+                    return !modal.hasAttribute('hidden');
+                });
+
+                closeModal(openModalElement);
+            });
+
+            function syncEditToggles() {
+                document.querySelectorAll('[data-edit-toggle]').forEach(function (toggle) {
+                    const targetId = toggle.getAttribute('data-edit-toggle');
+                    const targetRow = targetId ? document.getElementById(targetId) : null;
+                    const isOpen = targetRow && !targetRow.hasAttribute('hidden');
+
+                    toggle.classList.toggle('is-open', Boolean(isOpen));
+                    toggle.textContent = isOpen ? 'Đóng' : 'Sửa';
+                });
+            }
+
+            document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const targetId = button.getAttribute('data-edit-toggle');
+                    const row = document.getElementById(targetId);
+
+                    if (!row) {
+                        return;
+                    }
+
+                    const isHidden = row.hasAttribute('hidden');
+
+                    document.querySelectorAll('.table-edit-row').forEach(function (item) {
+                        item.setAttribute('hidden', 'hidden');
+                    });
+
+                    document.querySelectorAll('[data-edit-toggle]').forEach(function (toggle) {
+                        toggle.textContent = 'Sửa';
+                    });
+
+                    if (isHidden) {
+                        row.removeAttribute('hidden');
+                        button.textContent = 'Đóng';
+                    }
+                });
+            });
+
             document.querySelectorAll('.rich-editor').forEach(function (element) {
                 if (element.dataset.editorReady === 'true') {
                     return;
@@ -992,6 +1494,56 @@
                     console.error(error);
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = Array.from(document.querySelectorAll('[data-edit-toggle]'));
+
+            if (!toggleButtons.length) {
+                return;
+            }
+
+            toggleButtons.forEach(function (button) {
+                const replacement = button.cloneNode(true);
+                button.replaceWith(replacement);
+            });
+
+            function syncEditButtons() {
+                document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
+                    const targetId = button.getAttribute('data-edit-toggle');
+                    const targetRow = targetId ? document.getElementById(targetId) : null;
+                    const isOpen = Boolean(targetRow && !targetRow.hasAttribute('hidden'));
+
+                    button.classList.toggle('is-open', isOpen);
+                    button.textContent = isOpen ? 'Đóng' : 'Sửa';
+                });
+            }
+
+            document.querySelectorAll('[data-edit-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const targetId = button.getAttribute('data-edit-toggle');
+                    const targetRow = targetId ? document.getElementById(targetId) : null;
+
+                    if (!targetRow) {
+                        return;
+                    }
+
+                    const shouldOpen = targetRow.hasAttribute('hidden');
+
+                    document.querySelectorAll('.table-edit-row').forEach(function (row) {
+                        row.setAttribute('hidden', 'hidden');
+                    });
+
+                    if (shouldOpen) {
+                        targetRow.removeAttribute('hidden');
+                    }
+
+                    syncEditButtons();
+                });
+            });
+
+            syncEditButtons();
         });
     </script>
     @stack('scripts')

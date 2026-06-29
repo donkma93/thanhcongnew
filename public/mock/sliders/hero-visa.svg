@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#14532d"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="220" cy="180" r="180" fill="#ffffff" opacity=".08"/>
+  <circle cx="1360" cy="720" r="220" fill="#a7f3d0" opacity=".12"/>
+  <rect x="210" y="250" width="440" height="360" rx="28" fill="#ecfdf5" opacity=".16"/>
+  <rect x="290" y="320" width="280" height="220" rx="18" fill="#ffffff" opacity=".3"/>
+  <rect x="860" y="240" width="430" height="420" rx="30" fill="#022c22" opacity=".18"/>
+  <path d="M960 390l86 86 168-168" fill="none" stroke="#bbf7d0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="170" y="150" fill="#ffffff" font-size="78" font-family="Arial, sans-serif" font-weight="700">Visa Ready</text>
+  <text x="170" y="228" fill="#d1fae5" font-size="34" font-family="Arial, sans-serif">Checklist, interview practice, and application review</text>
+</svg>

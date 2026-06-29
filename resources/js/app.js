@@ -92,5 +92,33 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     });
 
+    const achievementsSwiper = new Swiper('.achievements-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+            el: '.achievements-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.achievements-next',
+            prevEl: '.achievements-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            },
+        },
+        autoplay: {
+            delay: 4500,
+            disableOnInteraction: false,
+        },
+    });
+
 
 });

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1240" cy="180" r="170" fill="#fde68a" opacity=".18"/>
+  <circle cx="320" cy="760" r="180" fill="#ffffff" opacity=".08"/>
+  <rect x="180" y="220" width="440" height="460" rx="32" fill="#ffffff" opacity=".12"/>
+  <rect x="250" y="300" width="300" height="260" rx="24" fill="#ffffff" opacity=".2"/>
+  <circle cx="1080" cy="360" r="150" fill="#fbbf24" opacity=".28"/>
+  <rect x="940" y="460" width="360" height="190" rx="26" fill="#faf5ff" opacity=".16"/>
+  <text x="170" y="160" fill="#ffffff" font-size="78" font-family="Arial, sans-serif" font-weight="700">Scholarship Journey</text>
+  <text x="170" y="240" fill="#f3e8ff" font-size="34" font-family="Arial, sans-serif">Highlighting high-value support programs and study plans</text>
+  <text x="1000" y="390" fill="#fff7ed" font-size="92" font-family="Arial, sans-serif" font-weight="700">100%</text>
+</svg>
